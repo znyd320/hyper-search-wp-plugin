@@ -1,0 +1,40 @@
+.panda-template-settings {
+    padding: 20px;
+}
+
+.panda-template-type,
+.panda-display-conditions,
+.panda-user-roles {
+    margin-bottom: 20px;
+}
+
+.condition-group {
+    margin-bottom: 15px;
+}
+
+.panda-specific-search {
+    display: none;
+    margin-top: 10px;
+}
+
+.panda-specific-results {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.panda-specific-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.panda-specific-item:hover {
+    background: #f5f5f5;
+}
+
+
+.phf-hidden{
+    display: none !important;
+}

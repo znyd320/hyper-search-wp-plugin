@@ -1,0 +1,64 @@
+
+ul.panda-breadcrumbs {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.panda-breadcrumbs li {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+ul.panda-breadcrumbs li:last-child {
+    margin: 0;
+}
+
+ul.panda-breadcrumbs li a,
+ul.panda-breadcrumbs li span.panda-breadcrumbs-separator,
+ul.panda-breadcrumbs li span {
+    display: block;
+}
+
+ul.panda-breadcrumbs li span {
+    -webkit-transition: all .4s;
+    transition: all .4s;
+}
+
+span.panda-breadcrumbs-home-icon {
+    margin-right: 10px;
+    align-content: center;
+}
+
+.panda-breadcrumbs-first a {
+    align-content: center;
+}
+
+.panda-breadcrumbs-separator i,
+.panda-breadcrumbs-separator svg,
+.panda-breadcrumbs-home-icon i,
+.panda-breadcrumbs-home-icon svg {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    display: block;
+}
+
+ul.panda-breadcrumbs li.panda-breadcrumbs-first {
+    display: inline-flex;
+}
+
+.panda-breadcrumbs a {
+    text-decoration: none;
+}
+
+.panda-breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.panda-breadcrumbs-item {
+    display: inline-flex;
+    align-items: center;
+}
