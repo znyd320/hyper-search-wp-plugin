@@ -16,21 +16,21 @@ if (!defined('ABSPATH')) {
 
 class Cart extends Widget_Base_Custom
 {
-
     public function __construct($data = [], $args = null)
     {
         parent::__construct($data, $args);
 
-        // Register widget assets
-        add_action('elementor/frontend/after_enqueue_styles', [$this, 'load_widget_assets']);
-        add_action('elementor/preview/enqueue_styles', [$this, 'load_widget_assets']);
-        add_action('elementor/editor/before_enqueue_scripts', [$this, 'load_widget_assets']);
+        // Frontend
+        add_action('wp_enqueue_scripts', [$this, 'load_widget_assets']);
 
-        // Add AJAX handlers if needed
+        // Elementor Editor
+        add_action('elementor/frontend/after_enqueue_scripts', [$this, 'load_widget_assets']);
+        add_action('elementor/preview/enqueue_scripts', [$this, 'load_widget_assets']);
+
+        // Ajax
         add_action('wp_ajax_update_cart_count', [$this, 'update_cart_count']);
         add_action('wp_ajax_nopriv_update_cart_count', [$this, 'update_cart_count']);
     }
-
     public function get_name()
     {
         return 'panda-cart';
@@ -63,6 +63,8 @@ class Cart extends Widget_Base_Custom
 
     public function load_widget_assets()
     {
+
+        error_log('Loading widget assets for ' . plugins_url('/assets/js/script.js', __FILE__));
         // Enqueue the script
         wp_enqueue_script(
             'panda-cart-widget',
@@ -77,7 +79,7 @@ class Cart extends Widget_Base_Custom
         error_log('Generated cart nonce: ' . $cart_nonce);
 
         // Localize the script with new data
-        wp_localize_script( 
+        wp_localize_script(
             'panda-cart-widget',
             'pandaCart',
             [

@@ -39,7 +39,6 @@ class Widget_Base_Custom extends Widget_Base
 
     public function load_widget_assets()
     {
-
         wp_enqueue_style('elementor-icons');
         $css_file = $this->get_widget_path() . '/assets/css/style.css';
         if (file_exists($css_file)) {
