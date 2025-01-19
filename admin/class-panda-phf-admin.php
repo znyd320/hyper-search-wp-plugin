@@ -142,14 +142,14 @@ class Admin
 
         wp_enqueue_style(
             'panda-admin',
-            PANDA_HF_PATH . 'admin/assets/css/admin.css',
+            PANDA_HF_URL . 'admin/assets/css/admin.css',
             [],
             PANDA_HF_VERSION
         );
 
         wp_enqueue_script(
             'panda-admin',
-            PANDA_HF_PATH . 'admin/assets/js/admin.js',
+            PANDA_HF_URL . 'admin/assets/js/admin.js',
             ['jquery'],
             PANDA_HF_VERSION,
             true

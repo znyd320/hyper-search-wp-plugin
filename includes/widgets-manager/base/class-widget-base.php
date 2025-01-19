@@ -43,26 +43,30 @@ class Widget_Base_Custom extends Widget_Base
         wp_enqueue_style('elementor-icons');
         $css_file = $this->get_widget_path() . '/assets/css/style.css';
         if (file_exists($css_file)) {
-            wp_register_style(
-                'panda-widget-' . $this->get_name(),
-                $this->get_widget_url() . '/assets/css/style.css',
-                [],
-                PANDA_HF_VERSION
-            );
-            wp_enqueue_style('panda-widget-' . $this->get_name());
+            $style_handle = 'panda-widget-' . $this->get_name();
+            if (!wp_style_is($style_handle, 'registered')) {
+                wp_register_style(
+                    $style_handle,
+                    $this->get_widget_url() . '/assets/css/style.css',
+                    [],
+                    PANDA_HF_VERSION
+                );
+            }
+            wp_enqueue_style($style_handle);
         }
-        
         $js_file = $this->get_widget_path() . '/assets/js/script.js';
-        error_log($js_file);
         if (file_exists($js_file)) {
-            wp_register_script(
-                'panda-widget-' . $this->get_name(),
-                $this->get_widget_url() . '/assets/js/script.js',
-                ['jquery'],
-                PANDA_HF_VERSION,
-                true
-            );
-            wp_enqueue_script('panda-widget-' . $this->get_name());
+            $script_handle = 'panda-widget-' . $this->get_name();
+            if (!wp_script_is($script_handle, 'registered')) {
+                wp_register_script(
+                    $script_handle,
+                    $this->get_widget_url() . '/assets/js/script.js',
+                    ['jquery'],
+                    PANDA_HF_VERSION,
+                    true
+                );
+            }
+            wp_enqueue_script($script_handle);
         }
     }
 }

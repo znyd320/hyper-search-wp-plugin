@@ -53,19 +53,6 @@ class Core
             self::$elementor_instance = \Elementor\Plugin::instance();
             $this->load_dependencies();
 
-            // Disable the Elementor top bar
-            add_filter(
-                'elementor/admin-top-bar/is-active',
-                function ($is_active, $current_screen) {
-                    if (strpos($current_screen->id, 'panda_template') !== false) {
-                        return false;
-                    }
-                    return $is_active;
-                },
-                9,
-                2
-            );
-
             $is_theme_supported = true;
 
             if ('genesis' == $this->template) {
@@ -85,7 +72,6 @@ class Core
                 require PANDA_HF_PATH . 'themes/hello-elementor/class-hfe-hello-elementor-compat.php';
             } else {
                 $is_theme_supported = false;
-                // error_log(message: 'Theme Support Status: ' . ($is_theme_supported ? 'true' : 'false') . ' | Template: ' . $this->template);
                 add_action('panda_settings_init', [$this, 'add_theme_support_settings']);
                 add_action('init', callback: [$this, 'setup_fallback_support']);
             }

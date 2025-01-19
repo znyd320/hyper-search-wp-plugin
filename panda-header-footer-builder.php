@@ -11,6 +11,7 @@
 define('PANDA_HF_VERSION', '1.0.0');
 define('PANDA_HF_PATH', plugin_dir_path(__FILE__));
 define('PANDA_HF_URL', plugin_dir_url(__FILE__));
+define('PANDA_HF_FILE', __FILE__);
 
 require_once PANDA_HF_PATH . 'includes/class-panda-core.php';
 

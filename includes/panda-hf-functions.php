@@ -116,7 +116,6 @@ function phf_render_before_footer()
  */
 if (! function_exists('_is_elementor_installed')) {
 
-    error_log('is_elementor_installed');
 
     /**
      * Check if Elementor is installed

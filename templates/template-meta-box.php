@@ -1,5 +1,4 @@
 <?php if (!defined('ABSPATH')) exit; ?>
-
 <div class="panda-template-settings">
     <div class="panda-template-type">
         <h3>Template Type</h3>
@@ -8,37 +7,42 @@
             <option value="header" <?php selected($template_type, 'header'); ?>>Header</option>
             <option value="footer" <?php selected($template_type, 'footer'); ?>>Footer</option>
             <option value="before_footer" <?php selected($template_type, 'before_footer'); ?>>Before Footer</option>
-            <option value="shortcut" <?php selected($template_type, 'shortcut'); ?>>Shortcut</option>
+            <option value="shortcode" <?php selected($template_type, 'shortcode'); ?>>Shortcode</option>
+            <option value="hook" <?php selected($template_type, 'hook'); ?>>Hook</option>
         </select>
     </div>
 
-    <div class="wrap-shortcut-template-dependency">
-        <div class="panda-shortcode-display" style="margin-top: 20px;">
+    <div class="card panda-shortcode-display">
+        <div class="section-header">
             <h3>Shortcode</h3>
-            <div class="shortcode-wrapper" style="background: #f5f5f5; padding: 10px; border-radius: 4px;">
-                <code onclick="navigator.clipboard.writeText(this.textContent).then(() => { this.setAttribute('data-original', this.innerHTML); this.innerHTML = 'Copied!'; setTimeout(() => { this.innerHTML = this.getAttribute('data-original'); }, 1000); })">[panda_template id="<?php echo esc_attr($post_id); ?>"]</code>
-            </div>
-            <p class="description">Copy this shortcode and paste it into your post, page, or text widget where you want to display this template.</p>
         </div>
+        <div class="shortcode-wrapper">
+            <code id="shortcode">[panda_template id="<?php echo esc_attr($post_id); ?>"]</code>
+            <span class="copied">Copied!</span>
+        </div>
+        <p class="description">Copy this shortcode and paste it where you want to display this template.</p>
+    </div>
 
-        <div class="panda-display-conditions">
+    <div class="card panda-display-locations">
+        <div class="section-header">
             <h3>Display Location</h3>
-            <select name="display_location">
-                <option value="--" <?php selected($display_location, '--'); ?>>Select One</option>
-                <optgroup label="Single Pages">
-                    <?php foreach ($location_options_singulars as $key => $value): ?>
-                        <option value="<?php echo esc_attr($key); ?>" <?php selected($display_location, $key); ?>><?php echo esc_html($value); ?></option>
-                    <?php endforeach; ?>
-                </optgroup>
-            </select>
         </div>
-
+        <select name="display_location" class="enhanced-select">
+            <option value="--" <?php selected($display_location, '--'); ?>>Select One</option>
+            <optgroup label="Single Pages">
+                <?php foreach ($location_options_singulars as $key => $value): ?>
+                    <option value="<?php echo esc_attr($key); ?>" <?php selected($display_location, $key); ?>><?php echo esc_html($value); ?></option>
+                <?php endforeach; ?>
+            </optgroup>
+        </select>
     </div>
 
 
-    <div class="panda-display-conditions">
-        <h3>Display Condition</h3>
-        <select name="display_condition">
+    <div class="card panda-display-conditions">
+        <div class="section-header">
+            <h3>Display Condition</h3>
+        </div>
+        <select name="display_condition" class="enhanced-select">
             <option value="--" <?php selected($display_condition, '--'); ?>>Select One</option>
             <optgroup label="Basic">
                 <option value="entire_website" <?php selected($display_condition, 'entire_website'); ?>>Entire Website</option>
@@ -72,9 +76,13 @@
         </select>
     </div>
 
-    <div class="panda-user-roles">
-        <h3>User Roles</h3>
-        <select name="user_roles">
+
+
+    <div class="card panda-user-roles">
+        <div class="section-header">
+            <h3>User Roles</h3>
+        </div>
+        <select name="user_roles" class="enhanced-select">
             <option value="--" <?php selected($user_roles, '--'); ?>>Select One</option>
             <optgroup label="Basic">
                 <option value="all" <?php selected($user_roles, 'all'); ?>>All</option>
@@ -88,6 +96,4 @@
             </optgroup>
         </select>
     </div>
-
-
 </div>

@@ -10,7 +10,7 @@ class Admin_Settings
     private $notices = [];
 
     private static $instance = null;
-    
+
     public static function get_instance()
     {
         if (null === self::$instance) {
@@ -29,14 +29,16 @@ class Admin_Settings
         do_action('panda_settings_init');
     }
 
-    public function add_notice($type, $message) {
+    public function add_notice($type, $message)
+    {
         $this->notices[] = [
             'type' => $type, // 'error', 'warning', 'success', 'info'
             'message' => $message
         ];
     }
 
-    public function add_tab_notice($tab_name, $type, $message) {
+    public function add_tab_notice($tab_name, $type, $message)
+    {
         if (!isset($this->tabs[$tab_name]['notices'])) {
             $this->tabs[$tab_name]['notices'] = [];
         }
@@ -78,7 +80,7 @@ class Admin_Settings
             if (!isset($field['description'])) {
                 $field['description'] = '';
             }
-            
+
             if (isset($this->tabs[$field['tab_name']])) {
                 $this->tabs[$field['tab_name']]['settings_fields'][] = $field;
             } elseif ($this->auto_register_tabs) {
@@ -156,7 +158,7 @@ class Admin_Settings
 ?>
         <div class="wrap">
             <h1><?php esc_html_e('Panda Settings', 'panda-header-footer'); ?></h1>
-            
+
             <?php
             // Display global notices
             foreach ($this->notices as $notice) : ?>
@@ -190,7 +192,7 @@ class Admin_Settings
                             <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
                                 <p><?php echo esc_html($notice['message']); ?></p>
                             </div>
-                        <?php endforeach;
+                    <?php endforeach;
                     }
                     ?>
                     <form method="post" action="options.php" class="panda-settings-form">
@@ -265,7 +267,7 @@ class Admin_Settings
                 width: 100%;
                 min-height: 100px;
             }
-            
+
             .field-description {
                 color: #666;
                 font-style: italic;
@@ -326,6 +328,6 @@ class Admin_Settings
 
     public function render_dashboard()
     {
-        echo '<div class="wrap"><h1>' . esc_html__('Welcome to the Panda Dashboard', 'panda-header-footer') . '</h1></div>';
+        require_once PANDA_HF_PATH . 'universal/dashboard/panda.support.page.php';
     }
 }

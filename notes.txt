@@ -1,0 +1,5 @@
+Clean canvas of elementor header footer editor
+Enqueue scripts and styles that will not give an unstyled markup on first load
+Enhance breadcrumbs with so many options
+general style separator style home icon style and content with text limit icon change color and size of icon
+Add Site Logo Module with rich controlling with responsive support

@@ -1,0 +1,121 @@
+/* WordPress Admin UI Compatible Design */
+:root {
+  --wp-admin-theme-color: #2271b1;
+  --wp-admin-theme-color-darker-10: #185888;
+  --wp-admin-theme-color-darker-20: #124364;
+  --wp-text-primary: #1e1e1e;
+  --wp-border-color: #8c8f94;
+  --wp-surface-color: #fff;
+}
+
+.panda-template-settings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 20px 0;
+  padding: 0;
+}
+
+/* Template Type - Main Control */
+.panda-template-type {
+  grid-column: 1 / -1;
+  background: var(--wp-surface-color);
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.panda-template-type h3 {
+  font-size: 1.3em;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: var(--wp-text-primary);
+}
+
+/* WordPress Standard Select Styling */
+.panda-template-settings select {
+  width: 100%;
+  max-width: 25rem;
+  height: 30px;
+  padding: 0 24px 0 8px;
+  font-size: 14px;
+  line-height: 2;
+  color: #2c3338;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+  background-size: 16px 16px;
+  cursor: pointer;
+  vertical-align: middle;
+  appearance: none;
+}
+
+.panda-template-settings select:hover {
+  color: #2271b1;
+  border-color: #2271b1;
+}
+
+.panda-template-settings select:focus {
+  border-color: var(--wp-admin-theme-color);
+  color: #0a4b78;
+  box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
+  outline: 2px solid transparent;
+}
+
+/* Section Cards */
+.panda-shortcode-display,
+.panda-display-conditions,
+.panda-user-roles {
+  background: var(--wp-surface-color);
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+/* Section Headers */
+.section-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dcdcde;
+}
+
+/* Shortcode Display */
+.shortcode-wrapper {
+  background: #f6f7f7;
+  padding: 12px;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  margin: 8px 0;
+}
+
+.shortcode-wrapper code {
+  display: block;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 13px;
+  color: #1e1e1e;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Description Text */
+.description {
+  font-size: 13px;
+  font-style: italic;
+  color: #646970;
+  margin-top: 8px;
+}
+
+/* Responsive Layout */
+@media screen and (max-width: 782px) {
+  .panda-template-settings {
+      grid-template-columns: 1fr;
+  }
+    
+  .panda-template-settings select {
+      height: 40px;
+  }
+}

@@ -42,28 +42,6 @@ class Extension extends Base_Extension {
             ]
         );
 
-        $element->add_control(
-            'logo_width',
-            [
-                'label' => __('Logo Width', 'panda-hf'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', '%'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 500,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .panda-site-logo img' => 'width: {{SIZE}}{{UNIT}};',
-                ],
-            ]
-        );
-
         $element->end_controls_section();
     }
 }

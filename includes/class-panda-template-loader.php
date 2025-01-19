@@ -2,6 +2,8 @@
 
 namespace Panda\Header_Footer;
 
+use Error;
+
 class Template_Loader
 {
 
@@ -32,7 +34,7 @@ class Template_Loader
 
     public function handle_single_page_content_filter($content)
     {
-        $templates = $this->get_matching_templates('shortcut');
+        $templates = $this->get_matching_templates('shortcode');
         if (empty($templates)) {
             return $content;
         }
@@ -43,7 +45,6 @@ class Template_Loader
         foreach ($templates as $template) {
             $display_location = get_post_meta($template['id'], '_display_location', true) ?: '';
             $post_type_name = explode('--', $display_location)[1];
-            error_log($post_type_name);
             if(!$post_type_name){
                 continue;
             }
@@ -82,23 +83,27 @@ class Template_Loader
             'id' => '',
         ), $atts);
 
+        error_log('template_shortcode: ' . $atts['id']);
+        
         if (empty($atts['id'])) {
             return '';
         }
 
         ob_start();
-        $this->load_template('shortcut', $atts['id']);
+        $this->load_template('shortcode', $atts['id']);
+        $this->load_template('hook', $atts['id']); 
         return ob_get_clean();
     }
 
     public function load_template($type, $template_id = null)
     {
-        if ($type === 'shortcut' && $template_id) {
-            return $this->render_template_by_id($template_id);
+        
+        if (($type === 'shortcode' || $type === 'hook') && $template_id) {
+            
+            return $this->render_template_by_id($template_id, $type);   
         }
 
         $templates = $this->get_matching_templates($type);
-
         if (empty($templates)) {
             return;
         }
@@ -151,7 +156,7 @@ class Template_Loader
         }
     }
 
-    private function render_template_by_id($template_id, $type = 'shortcut')
+    private function render_template_by_id($template_id, $type = 'shortcode')
     {
         $args = array(
             'post_type' => 'panda_template',

@@ -20,7 +20,31 @@ class Widgets_Loader
     public function __construct()
     {
         add_action('elementor/elements/categories_registered', [$this, 'register_widget_category'], 1);
+
+
+        // Register scripts for frontend and editor
+        add_action('wp_enqueue_scripts', [$this, 'register_widget_scripts']);
+        // add_action('elementor/preview/enqueue_styles', [$this, 'register_widget_scripts']);
+        add_action('elementor/editor/before_enqueue_scripts', [$this, 'register_widget_scripts']);
+
+        // Register Widgets
         add_action('elementor/widgets/register', [$this, 'register_widgets']);
+    }
+    public function register_widget_scripts()
+    {
+        // Construct proper URL path for frontend assets
+        $css_file = plugins_url('includes/widgets-styles/frontend.css', PANDA_HF_FILE);
+
+        // Register style only if not already registered
+        if (!wp_style_is('phf-widgets-style', 'registered')) {
+            wp_register_style(
+                'phf-widgets-style',
+                $css_file,
+                [],
+                PANDA_HF_VERSION
+            );
+        }
+        wp_enqueue_style('phf-widgets-style');
     }
 
     public function register_widget_category($elements_manager)
@@ -35,7 +59,7 @@ class Widgets_Loader
         );
 
         add_filter('elementor/document/config', function ($config, $post_id) {
-            
+
             if (get_post_type($post_id) === 'panda_template') {
                 if (!isset($config['panel']['categories_to_show'])) {
                     $config['panel']['categories_to_show'] = [];
@@ -46,7 +70,7 @@ class Widgets_Loader
         }, 1, 2);
     }
 
-    
+
     public function register_widgets($widgets_manager)
     {
 
@@ -76,7 +100,6 @@ class Widgets_Loader
         // Full namespace will be: Panda\Header_Footer\WidgetsManager\Modules\{ModuleDir}\Widgets\{ClassName}
         foreach ($modules as $module_name => $class_name) {
             $class = __NAMESPACE__ . '\\' . $class_name;
-            error_log($class);
 
             if (class_exists($class)) {
                 $widgets_manager->register(new $class());
