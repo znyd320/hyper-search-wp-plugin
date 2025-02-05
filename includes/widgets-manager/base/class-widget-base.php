@@ -26,6 +26,10 @@ class Widget_Base_Custom extends Widget_Base
         return [];
     }
 
+    public function is_active(){
+        return true;
+    }
+
     protected function get_widget_path()
     {
         $reflection = new \ReflectionClass($this);

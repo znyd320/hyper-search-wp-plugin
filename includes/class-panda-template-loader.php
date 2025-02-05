@@ -30,12 +30,42 @@ class Template_Loader
     public function render_hook_templates()
     {
         add_filter('the_content', [$this, 'handle_single_page_content_filter']);
+
+        // Check if WooCommerce is active before adding WooCommerce hooks
+        if (phf_is_woocommerce_active()) {
+            // Main content hooks
+            add_action('woocommerce_before_main_content', [$this, 'handle_woocommerce_hook'], 10);
+            add_action('woocommerce_after_main_content', [$this, 'handle_woocommerce_hook'], 10);
+
+            // Shop loop hooks
+            add_action('woocommerce_before_shop_loop', [$this, 'handle_woocommerce_hook'], 10);
+            add_action('woocommerce_after_shop_loop', [$this, 'handle_woocommerce_hook'], 10);
+
+            // Single product hooks
+            add_action('woocommerce_before_single_product', [$this, 'handle_woocommerce_hook'], 10);
+            add_action('woocommerce_after_single_product', [$this, 'handle_woocommerce_hook'], 10);
+
+            // Cart hooks
+            add_action('woocommerce_before_cart', [$this, 'handle_woocommerce_hook'], 10);
+            add_action('woocommerce_after_cart', [$this, 'handle_woocommerce_hook'], 10);
+
+            // Checkout hooks
+            add_action('woocommerce_before_checkout_form', [$this, 'handle_woocommerce_hook'], 10);
+            add_action('woocommerce_after_checkout_form', [$this, 'handle_woocommerce_hook'], 10);
+        }
     }
 
     public function handle_single_page_content_filter($content)
     {
-        $templates = $this->get_matching_templates('shortcode');
-        if (empty($templates)) {
+        // Validate input content
+        if (!is_string($content)) {
+            return $content;
+        }
+
+        $templates = $this->get_matching_templates('hook');
+
+        // Validate templates array
+        if (empty($templates) || !is_array($templates)) {
             return $content;
         }
 
@@ -43,11 +73,28 @@ class Template_Loader
         $after_content_templates = [];
 
         foreach ($templates as $template) {
-            $display_location = get_post_meta($template['id'], '_display_location', true) ?: '';
-            $post_type_name = explode('--', $display_location)[1];
-            if(!$post_type_name){
+            // Validate template structure
+            if (!isset($template['id'])) {
                 continue;
             }
+
+            $display_location = get_post_meta($template['id'], '_display_location', true) ?: '';
+            
+            // Validate display location
+            if (empty($display_location)) {
+                continue;
+            }
+
+            $location_parts = explode('--', $display_location);
+            if (count($location_parts) !== 2) {
+                continue;
+            }
+
+            $post_type_name = $location_parts[1];
+            if (empty($post_type_name)) {
+                continue;
+            }
+
             if ($display_location === "before_single--{$post_type_name}" && is_singular($post_type_name)) {
                 $before_content_templates[] = $template;
             } elseif ($display_location === "after_single--{$post_type_name}" && is_singular($post_type_name)) {
@@ -60,19 +107,51 @@ class Template_Loader
 
         if (!empty($before_content_templates)) {
             foreach ($before_content_templates as $template) {
-                $shortcode = '[panda_template id="' . $template['id'] . '"]';
+                // Validate template ID
+                if (!isset($template['id']) || !is_numeric($template['id'])) {
+                    continue;
+                }
+                $shortcode = '[panda_template hook="on" id="' . esc_attr($template['id']) . '"]';
                 $before_content .= do_shortcode($shortcode);
             }
         }
 
         if (!empty($after_content_templates)) {
             foreach ($after_content_templates as $template) {
-                $shortcode = '[panda_template id="' . $template['id'] . '"]';
+                // Validate template ID
+                if (!isset($template['id']) || !is_numeric($template['id'])) {
+                    continue;
+                }
+                $shortcode = '[panda_template hook="on" id="' . esc_attr($template['id']) . '"]';
                 $after_content .= do_shortcode($shortcode);
             }
         }
 
+        // Ensure all parts are strings before concatenation
+        $before_content = (string)$before_content;
+        $content = (string)$content;
+        $after_content = (string)$after_content;
+
         return $before_content . $content . $after_content;
+    }
+
+    public function handle_woocommerce_hook()
+    {
+        $current_hook = current_filter();
+        $templates = $this->get_matching_templates('hook');
+
+        if (empty($templates)) {
+            return;
+        }
+
+        foreach ($templates as $template) {
+            $display_location = get_post_meta($template['id'], '_display_location', true) ?: '';
+
+            if ($display_location === $current_hook) {
+                $shortcode = '[panda_template hook="on" id="' . $template['id'] . '"]';
+                echo do_shortcode($shortcode);
+            }
+        }
     }
     /**
      * Usage: [panda_template id="123"]
@@ -81,26 +160,28 @@ class Template_Loader
     {
         $atts = shortcode_atts(array(
             'id' => '',
+            'hook' => '',
         ), $atts);
 
-        error_log('template_shortcode: ' . $atts['id']);
-        
         if (empty($atts['id'])) {
             return '';
         }
 
         ob_start();
-        $this->load_template('shortcode', $atts['id']);
-        $this->load_template('hook', $atts['id']); 
+        if ($atts['hook'] == "on") {
+            $this->load_template('hook', $atts['id']);
+        } else {
+            $this->load_template('shortcode', $atts['id']);
+        }
         return ob_get_clean();
     }
 
     public function load_template($type, $template_id = null)
     {
-        
+
         if (($type === 'shortcode' || $type === 'hook') && $template_id) {
-            
-            return $this->render_template_by_id($template_id, $type);   
+
+            return $this->render_template_by_id($template_id, $type);
         }
 
         $templates = $this->get_matching_templates($type);

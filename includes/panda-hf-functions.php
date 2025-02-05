@@ -130,3 +130,17 @@ if (! function_exists('_is_elementor_installed')) {
         return (file_exists(WP_PLUGIN_DIR . '/elementor/elementor.php')) ? true : false;
     }
 }
+
+
+
+/**
+ * Check if WooCommerce is installed and active
+ *
+ * @return bool True if WooCommerce is active, false otherwise
+ */
+function phf_is_woocommerce_active() {
+    return class_exists('WooCommerce') && in_array(
+        'woocommerce/woocommerce.php', 
+        apply_filters('active_plugins', get_option('active_plugins'))
+    );
+}

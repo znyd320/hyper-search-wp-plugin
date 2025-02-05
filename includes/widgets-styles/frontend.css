@@ -111,8 +111,8 @@
 
 .panda-mini-cart-content {
   padding: 20px;
-  max-height: 400px;
-  overflow-y: auto;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 /* Side Panel Styles */
@@ -185,8 +185,9 @@
   height: 100%;
   background: rgba(0,0,0,0.5);
   z-index: 9998;
-  opacity: 0;
-  visibility: hidden;
+  /* opacity: 0;
+  visibility: hidden; */
+  display: none;
   transition: all 0.3s ease;
 }
 
@@ -667,6 +668,19 @@ transform: rotate(-45deg) translate(7px, -7px);
   margin-left: 0;
 }
 
+
+.panda-mini-cart-dropdown .panda-mini-cart-content{
+  max-height: 500px;
+  width: 350px;
+  background-color: #fff;
+}
+.panda-mini-cart-dropdown .panda-mini-cart-content .panda-mini-cart-items{
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0;
+}
+
+
 /* Mobile adjustments for multi-level dropdowns */
 @media screen and (max-width: 768px) {
   .panda-nav-menu-ul li.menu-item-has-children > ul.sub-menu {
@@ -835,3 +849,5 @@ transform: rotate(-45deg) translate(7px, -7px);
   }
 }
 }
+
+

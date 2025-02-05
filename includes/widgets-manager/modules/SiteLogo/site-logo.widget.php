@@ -42,6 +42,7 @@ class Site_Logo extends Widget_Base_Custom
     {
         return ['panda-hf'];
     }
+
     protected function register_controls()
     {
         // Content Tab
@@ -67,6 +68,38 @@ class Site_Logo extends Widget_Base_Custom
         );
 
         $this->add_control(
+            'logo_link_type',
+            [
+                'label' => __('Logo Link', 'panda-hf'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'home',
+                'options' => [
+                    'none' => __('None', 'panda-hf'),
+                    'home' => __('Home URL', 'panda-hf'),
+                    'custom' => __('Custom URL', 'panda-hf'),
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'logo_custom_link',
+            [
+                'label' => __('Custom Link', 'panda-hf'),
+                'type' => Controls_Manager::URL,
+                'placeholder' => 'https://your-link.com',
+                'show_external' => true,
+                'default' => [
+                    'url' => '',
+                    'is_external' => false,
+                    'nofollow' => false,
+                ],
+                'condition' => [
+                    'logo_link_type' => 'custom',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'logo_description_source',
             [
                 'label' => __('Logo Description', 'panda-hf'),
@@ -81,6 +114,7 @@ class Site_Logo extends Widget_Base_Custom
                 ],
             ]
         );
+
         $this->add_control(
             'custom_description',
             [
@@ -286,50 +320,7 @@ class Site_Logo extends Widget_Base_Custom
 
         $this->end_controls_section();
 
-        $this->start_controls_section(
-            'section_style_text_logo',
-            [
-                'label' => __('Text Logo Style', 'panda-hf'),
-                'tab' => Controls_Manager::TAB_STYLE,
-                'condition' => [
-                    'logo_type' => 'text',
-                ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Typography::get_type(),
-            [
-                'name' => 'text_logo_typography',
-                'selector' => '{{WRAPPER}} .panda-text-logo',
-            ]
-        );
-
-        $this->add_control(
-            'text_logo_color',
-            [
-                'label' => __('Text Color', 'panda-hf'),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .panda-text-logo' => 'color: {{VALUE}}',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'text_logo_hover_color',
-            [
-                'label' => __('Text Hover Color', 'panda-hf'),
-                'type' => Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .panda-text-logo:hover' => 'color: {{VALUE}}',
-                ],
-            ]
-        );
-
-        $this->end_controls_section();
-
-        // Add description style section
+        // Description Style Section
         $this->start_controls_section(
             'section_style_description',
             [
@@ -364,12 +355,8 @@ class Site_Logo extends Widget_Base_Custom
                 'selectors' => [
                     '{{WRAPPER}} .panda-logo-description' => 'text-align: {{VALUE}};',
                 ],
-                'condition' => [
-                    'logo_description_source!' => 'none',
-                ],
             ]
         );
-
 
         $this->add_group_control(
             Group_Control_Typography::get_type(),
@@ -421,7 +408,6 @@ class Site_Logo extends Widget_Base_Custom
 
         echo '<div ' . $this->get_render_attribute_string('wrapper') . '>';
 
-
         if ($settings['logo_source'] === 'site') {
             $logo_id = get_theme_mod('custom_logo');
             $logo_url = wp_get_attachment_image_url($logo_id, 'full');
@@ -429,11 +415,24 @@ class Site_Logo extends Widget_Base_Custom
             $logo_url = $settings['custom_logo']['url'];
         }
 
-        if ($logo_url) {
-            echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="panda-logo-image">';
+        $link_open = '';
+        $link_close = '';
+
+        if ($settings['logo_link_type'] === 'home') {
+            $link_open = '<a href="' . esc_url(home_url('/')) . '">';
+            $link_close = '</a>';
+        } elseif ($settings['logo_link_type'] === 'custom' && !empty($settings['logo_custom_link']['url'])) {
+            $this->add_link_attributes('logo_link', $settings['logo_custom_link']);
+            $link_open = '<a ' . $this->get_render_attribute_string('logo_link') . '>';
+            $link_close = '</a>';
         }
 
-        // Description Output
+        if ($logo_url) {
+            echo $link_open;
+            echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="panda-logo-image">';
+            echo $link_close;
+        }
+
         if ($settings['logo_description_source'] !== 'none') {
             $description = '';
             switch($settings['logo_description_source']) {
@@ -461,25 +460,4 @@ class Site_Logo extends Widget_Base_Custom
         }
         echo '</div>';
     }
-    // protected function render() {
-    //     $settings = $this->get_settings_for_display();
-
-    //     if ($settings['logo_source'] === 'site') {
-    //         $logo_id = get_theme_mod('custom_logo');
-    //         $logo_url = wp_get_attachment_image_url($logo_id, 'full');
-    //     } else {
-    //         $logo_url = $settings['custom_logo']['url'];
-    //     }
-
-    //     if ($logo_url) {
-    //         $this->add_render_attribute('logo', 'class', 'panda-site-logo');
-    //         if ($settings['logo_hover_animation']) {
-    //             $this->add_render_attribute('logo', 'class', 'elementor-animation-' . $settings['hover_animation']);
-    //         }
-
-    //         echo '<div ' . $this->get_render_attribute_string('logo') . '>';
-    //         echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="panda-logo-image">';
-    //         echo '</div>';
-    //     }
-    // }
 }

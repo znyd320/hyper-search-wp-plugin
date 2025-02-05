@@ -98,11 +98,15 @@ class Widgets_Loader
 
         // Register each widget class with Elementor
         // Full namespace will be: Panda\Header_Footer\WidgetsManager\Modules\{ModuleDir}\Widgets\{ClassName}
+        // Register each widget class with Elementor
         foreach ($modules as $module_name => $class_name) {
             $class = __NAMESPACE__ . '\\' . $class_name;
 
             if (class_exists($class)) {
-                $widgets_manager->register(new $class());
+                $widget = new $class();
+                if (method_exists($widget, 'is_active') && $widget->is_active()) {
+                    $widgets_manager->register($widget);
+                }
             }
         }
     }

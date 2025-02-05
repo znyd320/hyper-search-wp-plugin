@@ -16,8 +16,10 @@ if (!defined('ABSPATH')) {
 
 class Cart extends Widget_Base_Custom
 {
+
     public function __construct($data = [], $args = null)
     {
+
         parent::__construct($data, $args);
 
         // Frontend
@@ -31,6 +33,13 @@ class Cart extends Widget_Base_Custom
         add_action('wp_ajax_update_cart_count', [$this, 'update_cart_count']);
         add_action('wp_ajax_nopriv_update_cart_count', [$this, 'update_cart_count']);
     }
+
+
+    public function is_active()
+    {
+        return class_exists('WooCommerce');
+    }
+
     public function get_name()
     {
         return 'panda-cart';
@@ -63,8 +72,6 @@ class Cart extends Widget_Base_Custom
 
     public function load_widget_assets()
     {
-
-        error_log('Loading widget assets for ' . plugins_url('/assets/js/script.js', __FILE__));
         // Enqueue the script
         wp_enqueue_script(
             'panda-cart-widget',
@@ -74,25 +81,16 @@ class Cart extends Widget_Base_Custom
             true
         );
 
-        // Verify nonce creation
-        $cart_nonce = wp_create_nonce('panda_cart_nonce');
-        error_log('Generated cart nonce: ' . $cart_nonce);
-
-        // Localize the script with new data
         wp_localize_script(
             'panda-cart-widget',
             'pandaCart',
             [
                 'ajaxurl' => admin_url('admin-ajax.php'),
-                'cart_nonce' => $cart_nonce,
-                'update_cart_nonce' => wp_create_nonce('update_cart_count'),
+                'panda_cart_nonce' => wp_create_nonce('panda_cart_nonce'),
                 'i18n' => [
                     'errorMessage' => __('Something went wrong. Please try again.', 'panda-hf'),
-                    'cartEmpty' => __('Your cart is empty', 'panda-hf'),
-                    'removeItem' => __('Remove this item', 'panda-hf'),
-                    'cartUpdating' => __('Updating cart...', 'panda-hf')
-                ],
-                'debug' => WP_DEBUG
+                    'cartEmpty' => __('Your cart is empty', 'panda-hf')
+                ]
             ]
         );
 
@@ -218,18 +216,6 @@ class Cart extends Widget_Base_Custom
                 'tablet_default' => 'yes',
                 'mobile_default' => 'no',
                 'devices' => ['desktop', 'tablet', 'mobile'],
-            ]
-        );
-
-        $this->add_control(
-            'show_subtotal_label',
-            [
-                'label' => __('Show Subtotal Label', 'panda-hf'),
-                'type' => Controls_Manager::SWITCHER,
-                'default' => 'no',
-                'condition' => [
-                    'show_cart_total' => 'yes',
-                ],
             ]
         );
 
@@ -725,16 +711,17 @@ class Cart extends Widget_Base_Custom
 
                 <?php if ('yes' === $settings['show_cart_count']) : ?>
                     <span class="panda-cart-count" data-position="<?php echo esc_attr($counter_position); ?>">
-                        <?php echo WC()->cart ? WC()->cart->get_cart_contents_count() : '0'; ?>
+                        <span class="panda-cart-count-number">
+                            <?php echo WC()->cart ? WC()->cart->get_cart_contents_count() : '0'; ?>
+                        </span>
                     </span>
                 <?php endif; ?>
 
                 <?php if ('yes' === $settings['show_cart_total']) : ?>
                     <span class="panda-cart-total">
-                        <?php if ('yes' === $settings['show_subtotal_label']) : ?>
-                            <span class="panda-cart-subtotal-label"><?php echo __('Subtotal:', 'panda-hf'); ?></span>
-                        <?php endif; ?>
-                        <?php echo WC()->cart ? WC()->cart->get_cart_total() : wc_price(0); ?>
+                        <span>
+                            <?php echo WC()->cart ? WC()->cart->get_cart_total() : wc_price(0); ?>
+                        </span>
                     </span>
                 <?php endif; ?>
             </div>
@@ -766,63 +753,66 @@ class Cart extends Widget_Base_Custom
 
     protected function render_mini_cart_content()
     {
-        if (!WC()->cart) {
+        if (! WC()->cart) {
             return;
         }
 
         $cart_items = WC()->cart->get_cart();
-
-        if (empty($cart_items)) {
-            echo '<div class="panda-mini-cart-empty">';
-            echo __('Your cart is empty', 'panda-hf');
-            echo '</div>';
-            return;
-        }
     ?>
-        <div class="panda-mini-cart-items">
-            <?php foreach ($cart_items as $cart_item_key => $cart_item) :
-                $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
-                if (!$_product || !$_product->exists() || $cart_item['quantity'] < 0) {
-                    continue;
-                }
-            ?>
-                <div class="panda-mini-cart-item" data-key="<?php echo esc_attr($cart_item_key); ?>">
-                    <div class="item-thumbnail">
-                        <?php echo $_product->get_image(); ?>
-                    </div>
-                    <div class="item-details">
-                        <h4 class="item-title"><?php echo $_product->get_name(); ?></h4>
-                        <div class="item-price">
-                            <?php echo WC()->cart->get_product_price($_product); ?>
-                        </div>
-                        <div class="item-quantity">
-                            <button class="quantity-btn minus">-</button>
-                            <input type="number"
-                                class="qty"
-                                value="<?php echo $cart_item['quantity']; ?>"
-                                min="0"
-                                max="<?php echo $_product->get_max_purchase_quantity(); ?>"
-                                step="1">
-                            <button class="quantity-btn plus">+</button>
-                        </div>
-                    </div>
-                    <button class="remove-item" aria-label="<?php esc_attr_e('Remove item', 'panda-hf'); ?>">×</button>
-                </div>
-            <?php endforeach; ?>
-        </div>
+        <div>
 
-        <div class="panda-mini-cart-footer">
-            <div class="cart-subtotal">
-                <span class="label"><?php _e('Subtotal:', 'panda-hf'); ?></span>
-                <span class="amount"><?php echo WC()->cart->get_cart_subtotal(); ?></span>
+            <div class="panda-mini-cart-items">
+                <div>
+                    <?php
+                    if (empty($cart_items)) {
+                        printf(
+                            '<div class="panda-mini-cart-empty">%s</div>',
+                            esc_html__('Your cart is empty', 'panda-hf')
+                        );
+                        return;
+                    }
+
+                    foreach ($cart_items as $cart_item_key => $cart_item) :
+                        $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
+
+                        if (! $_product || ! $_product->exists() || $cart_item['quantity'] < 0) {
+                            continue;
+                        }
+                    ?>
+                        <div class="panda-mini-cart-item" data-key="<?php echo esc_attr($cart_item_key); ?>">
+                            <div class="item-thumbnail">
+                                <?php echo wp_kses_post($_product->get_image()); ?>
+                            </div>
+                            <div class="item-details">
+                                <h4 class="item-title"><?php echo esc_html($_product->get_name()); ?></h4>
+                                <div class="item-price">
+                                    <?php echo wp_kses_post(WC()->cart->get_product_price($_product)); ?>
+                                </div>
+                                <div class="item-quantity">
+                                    <button class="quantity-btn minus" aria-label="<?php esc_attr_e('Decrease quantity', 'panda-hf'); ?>">-</button>
+                                    <span class="qty"><?php echo esc_html($cart_item['quantity']); ?></span>
+                                    <button class="quantity-btn plus" aria-label="<?php esc_attr_e('Increase quantity', 'panda-hf'); ?>">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-item" aria-label="<?php esc_attr_e('Remove item', 'panda-hf'); ?>">×</button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <div class="cart-buttons">
-                <a href="<?php echo wc_get_cart_url(); ?>" class="button view-cart">
-                    <?php _e('View Cart', 'panda-hf'); ?>
-                </a>
-                <a href="<?php echo wc_get_checkout_url(); ?>" class="button checkout">
-                    <?php _e('Checkout', 'panda-hf'); ?>
-                </a>
+
+            <div class="panda-mini-cart-footer">
+                <div class="cart-subtotal">
+                    <span class="label"><?php esc_html_e('Subtotal:', 'panda-hf'); ?></span>
+                    <span class="amount"><?php echo wp_kses_post(WC()->cart ? WC()->cart->get_cart_total() : wc_price(0)); ?></span>
+                </div>
+                <div class="cart-buttons">
+                    <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="button view-cart">
+                        <?php esc_html_e('View Cart', 'panda-hf'); ?>
+                    </a>
+                    <a href="<?php echo esc_url(wc_get_checkout_url()); ?>" class="button checkout">
+                        <?php esc_html_e('Checkout', 'panda-hf'); ?>
+                    </a>
+                </div>
             </div>
         </div>
 <?php

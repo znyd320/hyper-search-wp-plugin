@@ -194,6 +194,9 @@ class Core
         require_once PANDA_HF_PATH . 'includes/class-panda-template-loader.php';
         require_once PANDA_HF_PATH . 'admin/class-panda-phf-admin.php';
         require_once PANDA_HF_PATH . 'includes/class-panda-theme-compatibility.php';
+        
+        // Ajax
+        require_once PANDA_HF_PATH . 'admin/ajax/cart.php';
 
         // Widget System
         require_once PANDA_HF_PATH . 'includes/widgets-manager/base/module-base.php';

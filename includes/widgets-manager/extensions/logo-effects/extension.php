@@ -5,9 +5,9 @@ use Panda\Header_Footer\WidgetsManager\Extensions\Base_Extension;
 
 class Extension extends Base_Extension {
     private $supported_widgets = [
-        'panda-site-logo',
-        'panda-navigation',
-        'panda-button'
+        // 'panda-site-logo',
+        // 'panda-navigation',
+        // 'panda-button'
     ];
 
     public function __construct() {

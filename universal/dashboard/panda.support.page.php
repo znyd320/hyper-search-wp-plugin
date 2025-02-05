@@ -1,353 +1,366 @@
 <?php
 /**
- * Support page template for Panda Header Footer Builder
+ * Panda Header Footer Builder - Support Documentation
+ * 
+ * This support page integrates with:
+ * - Elementor widgets system
+ * - WooCommerce cart functionality
+ * - Custom logo effects module
+ * - Navigation menu system
  */
 ?>
 <div class="wrap panda-support-page">
-
-    <!-- Page Header -->
     <header>
         <h1 class="panda-page-title">
-            Support
-            <span class="panda-page-version">1.0.1</span>
-            <span class="panda-wifi-icon dashicons dashicons-wifi"></span>
+            Panda Header Footer Builder
+            <span class="panda-page-version"><?php echo PANDA_HF_VERSION; ?></span>
+            <span class="panda-status-badge">Active</span>
         </h1>
     </header>
 
-    <!-- Tab Navigation -->
     <nav class="panda-tabs-nav nav-tab-wrapper">
         <a href="#panda-tab-getting-started" class="nav-tab nav-tab-active">Getting Started</a>
-        <a href="#panda-tab-documentation" class="nav-tab">Documentation</a>
-        <a href="#panda-tab-free-vs-pro" class="nav-tab">Free vs Pro</a>
-        <a href="#panda-tab-improve" class="nav-tab">Help us improve!</a>
+        <a href="#panda-tab-widgets" class="nav-tab">Widgets & Modules</a>
+        <a href="#panda-tab-integration" class="nav-tab">Integration Guide</a>
+        <a href="#panda-tab-advanced" class="nav-tab">Advanced Features</a>
     </nav>
 
-    <!-- Tab Content -->
     <main>
-        <!-- Getting Started Tab -->
-        <section id="panda-tab-getting-started" class="panda-tab-content" style="display: block;">
-            <h2>Getting Started</h2>
-            
-            <!-- Welcome Section -->
+        <!-- Getting Started -->
+        <section id="panda-tab-getting-started" class="panda-tab-content active">
             <div class="panda-row">
-                <div class="panda-card">
-                    <h3>Welcome to Panda Header Footer for Elementor!</h3>
-                    <p>Create & manage custom Headers and Footers for your WordPress site, all within Elementor's free version. Enjoy features such as:</p>
-                    <ul>
-                        <li>Easily build custom Headers & Footers without Elementor Pro.</li>
-                        <li>Display them across your entire site or on selected pages only.</li>
-                        <li>Add custom Elementor "blocks" anywhere using shortcodes.</li>
-                        <li>Compatible with many top page builders.</li>
-                        <li>Centralized styling for headers & footers.</li>
-                        <li>No coding required—intuitive, user-friendly interface.</li>
-                    </ul>
-                    <p>
-                        <a href="<?php echo admin_url('post-new.php?post_type=panda_template'); ?>" class="button button-primary">
-                            Create Your First Header
-                        </a>
-                    </p>
+                <div class="panda-card feature-highlight">
+                    <h3>Core Features</h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="dashicons dashicons-layout"></span>
+                            <h4>Template System</h4>
+                            <p>Create unlimited headers, footers, and blocks using Elementor</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="dashicons dashicons-visibility"></span>
+                            <h4>Display Controls</h4>
+                            <p>Advanced conditions for template visibility</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="dashicons dashicons-cart"></span>
+                            <h4>WooCommerce Ready</h4>
+                            <p>Integrated mini-cart with AJAX updates</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="panda-card">
-                    <h3>Quick Links</h3>
-                    <p>New here? Learn how to use Panda Header Footer for Elementor with these resources:</p>
-                    <ul class="panda-link-list">
-                        <li><a href="#" target="_blank">General Setup Guide</a></li>
-                        <li><a href="#" target="_blank">How to create your first Header</a></li>
-                        <li><a href="#" target="_blank">How to create your first Footer</a></li>
-                        <li><a href="#" target="_blank">Troubleshooting Guide</a></li>
-                        <li><a href="#" target="_blank">Customizing Headers & Footers</a></li>
-                        <li><a href="#" target="_blank">Using Shortcodes for Custom Blocks</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Features Section -->
-            <div class="panda-row">
-                <div class="panda-card">
-                    <h3>Shortcode</h3>
-                    <p>
-                        Display your custom Elementor blocks anywhere using a shortcode, for example:
-                        <code>[panda_template id='123']</code>.
-                        The advantage of using a shortcode is that you can embed it in any Page, Post, or Widget area.
-                    </p>
-                </div>
-                <div class="panda-card">
-                    <h3>Pagebuilder Integration</h3>
-                    <p>
-                        Panda Header Footer for Elementor is fully integrated with Elementor.
-                        Build your custom header or footer visually—no complex code needed!
-                        You can also combine it with other popular page builders if you prefer.
-                    </p>
+                    <h3>Quick Setup Guide</h3>
+                    <ol class="setup-steps">
+                        <li>
+                            <strong>Create Template:</strong>
+                            <a href="<?php echo admin_url('post-new.php?post_type=panda_template'); ?>" class="button button-primary">New Template</a>
+                        </li>
+                        <li>
+                            <strong>Choose Type:</strong>
+                            <ul>
+                                <li>Header Template</li>
+                                <li>Footer Template</li>
+                                <li>Block Template (for shortcodes)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Set Display Rules:</strong>
+                            <code>Template Settings → Display Conditions</code>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
 
-        <!-- Documentation Tab -->
-        <section id="panda-tab-documentation" class="panda-tab-content" style="display: none;">
-            <h2>Documentation</h2>
-            
-            <!-- Documentation Cards - Row 1 -->
+        <!-- Widgets & Modules -->
+        <section id="panda-tab-widgets" class="panda-tab-content">
             <div class="panda-docs-row">
                 <div class="panda-doc-card">
-                    <div class="panda-doc-image">
-                        <img src="https://placehold.co/400x200?text=Video+Thumbnail" alt="Creating Headers Tutorial" />
+                    <h3>Logo Widget</h3>
+                    <div class="widget-features">
+                        <h4>Effects Available:</h4>
+                        <ul>
+                            <li>Grow animation</li>
+                            <li>Shrink effect</li>
+                            <li>Pulse animation</li>
+                        </ul>
+                        <!-- <div class="code-example">
+                            <pre><code>.logo-hover-grow img {
+    transition: transform 0.3s ease;
+}</code></pre>
+                        </div> -->
                     </div>
-                    <h3>Creating Your First Header</h3>
-                    <p>Learn how to build a custom header layout with free Elementor and display it site-wide or on specific pages.</p>
-                    <p><a href="#" class="panda-learn-more">Learn More</a></p>
                 </div>
 
                 <div class="panda-doc-card">
-                    <div class="panda-doc-image">
-                        <img src="https://placehold.co/400x200?text=Video+Thumbnail" alt="Creating Footers Tutorial" />
+                    <h3>Navigation Menu</h3>
+                    <div class="widget-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Multi-level dropdowns</li>
+                            <li>Mobile responsive</li>
+                            <li>RTL support</li>
+                            <li>Custom animations</li>
+                        </ul>
                     </div>
-                    <h3>Creating Your First Footer</h3>
-                    <p>Learn how to build a custom footer layout to replace your theme's default footer.</p>
-                    <p><a href="#" class="panda-learn-more">Learn More</a></p>
                 </div>
 
                 <div class="panda-doc-card">
-                    <div class="panda-doc-image">
-                        <img src="https://placehold.co/400x200?text=Video+Thumbnail" alt="Shortcodes Tutorial" />
+                    <h3>Cart Module</h3>
+                    <div class="widget-features">
+                        <h4>Functionality:</h4>
+                        <ul>
+                            <li>AJAX quantity updates</li>
+                            <li>Real-time total calculation</li>
+                            <li>Fragment updates</li>
+                            <li>Custom styling options</li>
+                        </ul>
                     </div>
-                    <h3>Using Shortcodes for Blocks</h3>
-                    <p>Place custom Elementor sections or blocks anywhere on your site using shortcodes.</p>
-                    <p><a href="#" class="panda-learn-more">Learn More</a></p>
-                </div>
-            </div>
-
-            <!-- Documentation Cards - Row 2 -->
-            <div class="panda-docs-row">
-                <div class="panda-doc-card">
-                    <div class="panda-doc-image">
-                        <img src="https://placehold.co/400x200?text=Thumbnail" alt="Display Conditions Tutorial" />
-                    </div>
-                    <h3>Advanced Display Conditions</h3>
-                    <p>Discover how to show or hide headers, footers, or blocks based on specific pages, categories, or user roles.</p>
-                    <p><a href="#" class="panda-learn-more">Learn More</a></p>
                 </div>
             </div>
         </section>
 
-        <!-- Free vs Pro Tab -->
-        <section id="panda-tab-free-vs-pro" class="panda-tab-content" style="display: none;">
-            <h2>Free vs Pro</h2>
-            <p class="panda-subtitle">Powerful features available only with Panda Header Footer for Elementor Pro</p>
-            
-            <table class="widefat striped">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Free</th>
-                        <th>Pro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Create custom Headers & Footers</td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Display on entire site or specific pages</td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Advanced Display Conditions (roles, time, device)</td>
-                        <td><span class="dashicons dashicons-no-alt"></span></td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Sticky & Transparent Headers</td>
-                        <td><span class="dashicons dashicons-no-alt"></span></td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Multiple Header/Footer Templates</td>
-                        <td><span class="dashicons dashicons-no-alt"></span></td>
-                        <td><span class="dashicons dashicons-yes-alt"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Integration Guide -->
+        <section id="panda-tab-integration" class="panda-tab-content">
+            <div class="panda-integration-grid">
+                <div class="integration-card">
+                    <h3>Shortcode Usage</h3>
+                    <div class="code-block">
+                        <code>[panda_template id="123"]</code>
+                        <p>Display any template anywhere using shortcodes</p>
+                    </div>
+                </div>
+
+                <div class="integration-card">
+                    <h3>Theme Integration</h3>
+                    <pre><code>// Add theme support
+add_theme_support('panda_header_footer');</code></pre>
+                </div>
+
+                <div class="integration-card">
+                    <h3>Supported Themes</h3>
+                    <ul class="theme-list">
+                        <li>Genesis</li>
+                        <li>Astra</li>
+                        <li>GeneratePress</li>
+                        <li>OceanWP</li>
+                        <li>Storefront</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
-        <!-- Help us improve Tab -->
-        <section id="panda-tab-improve" class="panda-tab-content" style="display: none;">
-            <h2>Help us improve!</h2>
-            <div class="panda-improve-row">
-                <div class="panda-card">
-                    <h3>Answer a few questions to help us improve Panda Header Footer for Elementor</h3>
-                    <p>
-                        We're always looking for suggestions to further enhance the plugin.
-                        If your feedback is especially insightful and we invite you for an interview, 
-                        you can even receive a complimentary yearly Pro membership.
-                    </p>
-                    <p>
-                        <a href="#" class="button button-primary">Take The Survey</a>
-                    </p>
+        <!-- Advanced Features -->
+        <section id="panda-tab-advanced" class="panda-tab-content">
+            <div class="panda-advanced-features">
+                <div class="feature-section">
+                    <h3>Display Conditions</h3>
+                    <div class="condition-types">
+                        <ul>
+                            <li>Page-specific rules</li>
+                            <li>User role targeting</li>
+                            <li>Custom post type support</li>
+                            <li>WooCommerce page rules</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="panda-improve-illustration">
-                    <img src="https://placehold.co/500x300?text=Illustration" alt="Improve illustration" />
-                </div>
+
+                <!-- <div class="feature-section">
+                    <h3>Extension System</h3>
+                    <p>Create custom extensions using the base extension class:</p>
+                    <pre><code>class Custom_Extension extends Base_Extension {
+    protected function get_extension_path() {
+        return __DIR__;
+    }
+}</code></pre>
+                </div> -->
             </div>
         </section>
     </main>
 </div>
-
-<!-- Styles -->
 <style>
-    /* Core Layout */
-    .panda-support-page {
-        max-width: 1200px;
-    }
+/* Enhanced Documentation Styling */
+.panda-support-page {
+    max-width: 1400px;
+    margin: 20px auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 
-    /* Header Styles */
-    .panda-page-title {
-        display: flex;
-        align-items: center;
-        margin-bottom: 2rem;
-    }
+.panda-page-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
 
-    .panda-page-version {
-        font-size: 14px;
-        color: #777;
-        margin-left: 1rem;
-    }
+.panda-status-badge {
+    background: linear-gradient(45deg, #00a32a, #2ecc71);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,163,42,0.2);
+}
 
-    .panda-wifi-icon {
-        margin-left: 0.5rem;
-        font-size: 20px;
-    }
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
 
-    /* Navigation */
-    .panda-tabs-nav {
-        margin-bottom: 1.5rem;
-        border-bottom: 1.5px solid #eee;
-    }
+.feature-item {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
 
-    .panda-tabs-nav .nav-tab {
-        cursor: pointer;
-        font-size: 14px;
-    }
+.feature-item:hover {
+    transform: translateY(-3px);
+}
 
-    .panda-tabs-nav .nav-tab-active {
-        border-bottom: 1.5px solid #0073aa;
-    }
+.feature-item .dashicons {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: #2271b1;
+    margin-bottom: 15px;
+}
 
-    /* Grid Layout */
-    .panda-row,
-    .panda-docs-row,
-    .panda-improve-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-bottom: 2rem;
-    }
+.panda-doc-card {
+    background: #ffffff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+}
 
-    /* Cards */
-    .panda-card,
-    .panda-doc-card {
-        background: #fff;
-        border: 1px solid #ddd;
-        padding: 20px;
-        box-sizing: border-box;
-    }
+.widget-features {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 15px;
+}
 
-    .panda-card {
-        flex: 1 1 calc(50% - 20px);
-    }
+.widget-features ul {
+    margin: 0;
+    padding-left: 20px;
+}
 
-    .panda-doc-card {
-        width: calc(33.333% - 20px);
-        min-height: 240px;
-        display: flex;
-        flex-direction: column;
-    }
+.widget-features li {
+    margin: 10px 0;
+    color: #505050;
+}
 
-    /* Typography */
-    .panda-card h3,
-    .panda-doc-card h3 {
-        margin-top: 0;
-        font-size: 1.2rem;
-    }
+.setup-steps {
+    counter-reset: step;
+    list-style-type: none;
+    padding: 0;
+}
 
-    .panda-subtitle {
-        margin-bottom: 1rem;
-        font-size: 16px;
-        color: #555;
-    }
+.setup-steps li {
+    position: relative;
+    padding: 15px 0 15px 45px;
+    border-left: 2px solid #e5e5e5;
+    margin-left: 20px;
+}
 
-    /* Links */
-    .panda-link-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+.setup-steps li:before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: -20px;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 2px solid #2271b1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
 
-    .panda-link-list li {
-        margin-bottom: 0.5em;
-    }
+.code-example {
+    background: #282c34;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
 
-    .panda-link-list a,
-    .panda-learn-more {
-        text-decoration: none;
-        color: #0073aa;
-    }
+.code-example code {
+    color: #abb2bf;
+    font-family: 'Monaco', 'Consolas', monospace;
+}
 
-    .panda-learn-more:hover {
-        text-decoration: underline;
-    }
+.integration-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    /* Images */
-    .panda-doc-image img,
-    .panda-improve-illustration img {
-        width: 100%;
-        height: auto;
-        display: block;
-        margin-bottom: 1rem;
-    }
+.nav-tab-wrapper {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+}
 
-    /* Tables */
-    .widefat.striped th {
-        background: #f3f3f3;
-        font-weight: 600;
-    }
+.nav-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    color: #50575e;
+    transition: all 0.2s ease;
+}
 
-    .widefat.striped td {
-        vertical-align: middle;
-    }
+.nav-tab-active {
+    color: #2271b1;
+    border-bottom: 2px solid #2271b1;
+    margin-bottom: -2px;
+}
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .panda-row,
-        .panda-docs-row,
-        .panda-improve-row {
-            flex-direction: column;
-        }
+.panda-tab-content {
+    display: none;
+}
 
-        .panda-card,
-        .panda-doc-card,
-        .panda-improve-illustration {
-            width: 100% !important;
-        }
+.panda-tab-content.active {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
     }
+}
+</style>
 </style>
 
-<!-- Tab Functionality -->
 <script>
-    (function($) {
-        $('.panda-tabs-nav a').on('click', function(e) {
-            e.preventDefault();
-            
-            // Update tab states
-            $('.panda-tabs-nav a').removeClass('nav-tab-active');
-            $('.panda-tab-content').hide();
-            
-            // Show selected tab
-            $(this).addClass('nav-tab-active');
-            $($(this).attr('href')).show();
-        });
-    })(jQuery);
+jQuery(document).ready(function($) {
+    // Tab Navigation
+    $('.panda-tabs-nav a').on('click', function(e) {
+        e.preventDefault();
+        $('.panda-tabs-nav a').removeClass('nav-tab-active');
+        $('.panda-tab-content').removeClass('active');
+        $(this).addClass('nav-tab-active');
+        $($(this).attr('href')).addClass('active');
+    });
+
+    // Code Copy Functionality
+    $('.code-block code').click(function() {
+        navigator.clipboard.writeText($(this).text());
+        $(this).addClass('copied');
+        setTimeout(() => $(this).removeClass('copied'), 1000);
+    });
+});
 </script>

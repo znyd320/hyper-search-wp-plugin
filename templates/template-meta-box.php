@@ -34,18 +34,32 @@
                     <option value="<?php echo esc_attr($key); ?>" <?php selected($display_location, $key); ?>><?php echo esc_html($value); ?></option>
                 <?php endforeach; ?>
             </optgroup>
+            
+            <?php if (phf_is_woocommerce_active()): ?>
+            <optgroup label="WooCommerce">
+                <option value="woocommerce_before_main_content" <?php selected($display_location, 'woocommerce_before_main_content'); ?>>Before Main Content</option>
+                <option value="woocommerce_after_main_content" <?php selected($display_location, 'woocommerce_after_main_content'); ?>>After Main Content</option>
+                <option value="woocommerce_before_shop_loop" <?php selected($display_location, 'woocommerce_before_shop_loop'); ?>>Before Shop Loop</option>
+                <option value="woocommerce_after_shop_loop" <?php selected($display_location, 'woocommerce_after_shop_loop'); ?>>After Shop Loop</option>
+                <option value="woocommerce_before_single_product" <?php selected($display_location, 'woocommerce_before_single_product'); ?>>Before Single Product</option>
+                <option value="woocommerce_after_single_product" <?php selected($display_location, 'woocommerce_after_single_product'); ?>>After Single Product</option>
+                <option value="woocommerce_before_cart" <?php selected($display_location, 'woocommerce_before_cart'); ?>>Before Cart</option>
+                <option value="woocommerce_after_cart" <?php selected($display_location, 'woocommerce_after_cart'); ?>>After Cart</option>
+                <option value="woocommerce_before_checkout_form" <?php selected($display_location, 'woocommerce_before_checkout_form'); ?>>Before Checkout Form</option>
+                <option value="woocommerce_after_checkout_form" <?php selected($display_location, 'woocommerce_after_checkout_form'); ?>>After Checkout Form</option>
+            </optgroup>
+            <?php endif; ?>
         </select>
     </div>
-
 
     <div class="card panda-display-conditions">
         <div class="section-header">
             <h3>Display Condition</h3>
         </div>
         <select name="display_condition" class="enhanced-select">
-            <option value="--" <?php selected($display_condition, '--'); ?>>Select One</option>
+            <option value="--" <?php selected($display_condition, '--' && !empty($display_condition)); ?>>Select One</option>
             <optgroup label="Basic">
-                <option value="entire_website" <?php selected($display_condition, 'entire_website'); ?>>Entire Website</option>
+                <option value="entire_website" <?php selected($display_condition, 'entire_website', true); ?> <?php echo (empty($display_condition) ? 'selected' : ''); ?>>Entire Website</option>
                 <option value="all_singulars" <?php selected($display_condition, 'all_singulars'); ?>>All Singulars</option>
                 <option value="all_archives" <?php selected($display_condition, 'all_archives'); ?>>All Archives</option>
             </optgroup>
@@ -75,7 +89,6 @@
             </optgroup>
         </select>
     </div>
-
 
 
     <div class="card panda-user-roles">

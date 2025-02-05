@@ -112,14 +112,16 @@ class Admin_Settings
                 30
             );
 
-            add_submenu_page(
-                'panda-dashboard',
-                __('Settings', 'panda-header-footer'),
-                __('Settings', 'panda-header-footer'),
-                'manage_options',
-                'panda-settings',
-                [$this, 'render_settings_page']
-            );
+            if(!empty($this->tabs)) {
+                add_submenu_page(
+                    'panda-dashboard',
+                    __('Settings', 'panda-header-footer'),
+                    __('Settings', 'panda-header-footer'),
+                    'manage_options',
+                    'panda-settings',
+                    [$this, 'render_settings_page']
+                );
+            }
         }
     }
 
